@@ -46,8 +46,8 @@ export const ACTIONS = {
 };
  
 export default async function serviceCall(action, formData, id) {
-  // const url = 'https://movie-backend-6tsw.onrender.com/api/movies';
-  const url = process.env.REACT_APP_BACKEND_URL || 'https://localhost:6000/api/movies';
+   const url = 'https://movie-backend-6tsw.onrender.com/api/movies';
+  // const url =  'https://localhost:6000/api/movies';
 
   switch (action) {
     case ACTIONS.create:

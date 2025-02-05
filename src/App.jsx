@@ -4,7 +4,7 @@ import {  Routes, Route, Link } from 'react-router-dom';
 import MovieList from './components/MovieList.jsx';
 import MovieDetails from './components/MovieDetails.jsx';
 import Favorites from './components/Favorites.jsx';
-
+import axios from 'axios';
 import { fetchMovies } from './services/apiServices.mjs';
 import SearchBar from './components/SearchBar.jsx';
 import LandingPage from './components/LandingPage.jsx';
@@ -40,7 +40,11 @@ useEffect(() => {
 }, [searchQuery]);
 
     // Add movies to favorites
-  const addToFavorites = (movie) => {
+  const addToFavorites = async (movie) => {
+    
+      
+    
+    const response = await axios.post('http://localhost:3000/api/movies', movie )
     setFavorites((prevFavorites) => {
       const updatedFavorites = [...prevFavorites, movie];
       localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
@@ -48,13 +52,19 @@ useEffect(() => {
     });
   };
 
+
+
     // Remove movies from favorites
   const removeFromFavorites = (movieId) => {
-    setFavorites((prevFavorites) => {
-      const updatedFavorites = favorites.filter((movie) => movie.id !== movieId);
-    localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
+  //   setFavorites((prevFavorites) => {
+  //     const updatedFavorites = favorites.filter((movie) => movie.id !== movieId);
+  //   localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
   
-  });
+  // });
+
+        const updatedFavorites = favorites.filter((movie) => movie.id !== movieId);
+        setFavorites(updatedFavorites);
+
 };
   return (
     <div className="app">

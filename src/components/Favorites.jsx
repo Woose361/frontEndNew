@@ -1,5 +1,6 @@
 const Favorites = ({ favorites, removeFromFavorites }) => {
     if (favorites.length === 0) {
+
       return <p>No favorites yet. Soon come, Soon come</p>;
     }
   return (
