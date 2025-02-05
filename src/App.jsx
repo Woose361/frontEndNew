@@ -4,8 +4,10 @@ import {  Routes, Route, Link } from 'react-router-dom';
 import MovieList from './components/MovieList.jsx';
 import MovieDetails from './components/MovieDetails.jsx';
 import Favorites from './components/Favorites.jsx';
+
 import { fetchMovies } from './services/apiServices.mjs';
 import SearchBar from './components/SearchBar.jsx';
+import LandingPage from './components/LandingPage.jsx';
 
 
 const App = () => {
@@ -60,6 +62,7 @@ useEffect(() => {
       <nav>
         <Link to="/">  Home </Link>
         <Link to="/favorites"> Favorites</Link>
+        <Link to="/landing"> About Page</Link>
         </nav> 
        
         <SearchBar setSearchQuery={setSearchQuery}/>
@@ -69,6 +72,7 @@ useEffect(() => {
         <Route path="/" element={<MovieList movies={movies} addToFavorites={addToFavorites} />}  />
         <Route path="/favorites" element={<Favorites favorites={favorites} removeFromFavorites={removeFromFavorites} />}/>
         <Route path="/movies/:id" element={<MovieDetails removeFromFavorites={removeFromFavorites} />} />
+        <Route path="/landing" element={<LandingPage/>} />
         <Route path="*" element={<h1>Not Found</h1>} />
       </Routes>
       

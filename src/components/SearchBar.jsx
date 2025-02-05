@@ -21,6 +21,7 @@ const SearchBar = ({  setSearchQuery }) => {
         />
         <button type="submit">Search</button>
       </form>
+      
     </div>
   );
 };
