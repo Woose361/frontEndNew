@@ -1,0 +1,12 @@
+#root {
+  max-width: 1280px;
+  margin: auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+
+form{
+  width: 100%;
+  margin: 0;
+}
