@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import serviceCall, { ACTIONS } from '../services/apiServices';;
-
+import { fetchMovieDetails } from '../services/apiServices';
 
 const MovieDetails = ({ addToFavorites, removeFromFavorites }) => {
   const { id } = useParams();
@@ -16,10 +16,11 @@ const MovieDetails = ({ addToFavorites, removeFromFavorites }) => {
         const movieData = await fetchMovieDetails(id);
         setMovie(movieData);
 
-        const videoResponse = await fetch(`https://api.themoviedb.org/3/movie/${id}/videos?api_key=ab881e0e86fe5334e70ca49928474d21`);
-        const videoData = await videoResponse.json();
+        // fetch movie trailer
+        const videoData = await fetch(`https://api.themoviedb.org/3/movie/${id}/videos?api_key=ab881e0e86fe5334e70ca49928474d21`);
+        const videoJson = await videoData.json();
 
-        if (videoData.results.length > 0) {
+        if (videoJson.results.length > 0) {
           setTrailerKey(videoData.results[0].key);
         }
 
@@ -33,40 +34,44 @@ const MovieDetails = ({ addToFavorites, removeFromFavorites }) => {
         fetchMovieDetails();
         }, [id]);
         
-
-        const fetchVideos = async (id) => {
-          const response = await fetch(`https://api.themoviedb.org/3/movie/${id}/videos?api_key=ab881e0e86fe5334e70ca49928474d21`);
-          const data = await response.json();
-          return data;
-
-
-        const handleAddToFavorites = async () => {
-          try {
-            const newFavorite = await serviceCall(ACTIONS.create, {
-              title: movie.title,
-              name: movie.name,
-              description: movie.overview,
-            });
-
-            addToFavorites(newFavorite); 
-          } catch (err) {
-            console.error("Error adding to favorites", err);
-          }
-        };
-
-        const handleRemoveFromFavorites = async () => {
-          try {
-          await serviceCall(ACTIONS.delete, null, movie.id);
-      removeFromFavorites(movie.id); 
-      } catch (err) {
-        console.error("Error removing from favorites", err);
-      }
-    };
-
         if (loading) 
-            return <p> Loading movie data...</p>;
-        if (!movie) 
-            return <p> Movie not found</p>;
+          return <p> Loading movie data...</p>;
+      if (!movie) 
+          return <p> Movie not found</p>;
+
+    //     const fetchVideos = async (id) => {
+    //       const response = await fetch(`https://api.themoviedb.org/3/movie/${id}/videos?api_key=ab881e0e86fe5334e70ca49928474d21`);
+    //       const data = await response.json();
+    //       return data;
+
+
+    //     const handleAddToFavorites = async () => {
+    //       try {
+    //         const newFavorite = await serviceCall(ACTIONS.create, {
+    //           title: movie.title,
+    //           name: movie.name,
+    //           description: movie.overview,
+    //         });
+
+    //         addToFavorites(newFavorite); 
+    //       } catch (err) {
+    //         console.error("Error adding to favorites", err);
+    //       }
+    //     };
+
+    //     const handleRemoveFromFavorites = async () => {
+    //       try {
+    //       await serviceCall(ACTIONS.delete, null, movie.id);
+    //   removeFromFavorites(movie.id); 
+    //   } catch (err) {
+    //     console.error("Error removing from favorites", err);
+    //   }
+    // };
+
+    //     if (loading) 
+    //         return <p> Loading movie data...</p>;
+    //     if (!movie) 
+    //         return <p> Movie not found</p>;
         
         return (    
             <div className="movie-details">
@@ -91,5 +96,6 @@ const MovieDetails = ({ addToFavorites, removeFromFavorites }) => {
         );
     };
 
-  };
+  
+
     export default MovieDetails;

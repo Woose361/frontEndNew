@@ -1,11 +1,15 @@
+import React from 'react';
 import { Link } from 'react-router-dom';
 
 const MovieList = ({ movies, addToFavorites }) => {
-  console.log("Movies in the array: ", movies);
+if (movies.length === 0) { 
+  return 
+  
+}
   return (
     <div className="movie-list">
 
-<pre>{JSON.stringify(movies, null, 2)}</pre>
+{/* <pre>{JSON.stringify(movies, null, 2)}</pre> */}
 
 
       {movies.length === 0 ? (
