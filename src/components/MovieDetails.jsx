@@ -21,7 +21,7 @@ const MovieDetails = ({ addToFavorites, removeFromFavorites }) => {
         const videoJson = await videoData.json();
 
         if (videoJson.results.length > 0) {
-          setTrailerKey(videoData.results[0].key);
+          setTrailerKey(videoJson.results[0].key);
         }
 
         } catch (err) {

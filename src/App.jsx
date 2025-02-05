@@ -69,6 +69,7 @@ useEffect(() => {
         <Route path="/" element={<MovieList movies={movies} addToFavorites={addToFavorites} />}  />
         <Route path="/favorites" element={<Favorites favorites={favorites} removeFromFavorites={removeFromFavorites} />}/>
         <Route path="/movies/:id" element={<MovieDetails removeFromFavorites={removeFromFavorites} />} />
+        <Route path="*" element={<h1>Not Found</h1>} />
       </Routes>
       
     </div>
