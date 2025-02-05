@@ -7,13 +7,19 @@ const Favorites = ({ favorites, removeFromFavorites }) => {
         ) : (
             favorites.map((movie) => (
               <div key={movie.id} className="favorite-card">
-               
-                <h3>{movie.title}</h3>
+                 <h3>{movie.title}</h3>
                 <button onClick={() => removeFromFavorites(movie.id)}>
-                <a href={`https://www.youtube.com/results?search_query=${movie.title} trailer`} target="_blank" rel="noopener noreferrer">
+                
+                </button>
+
+                <a
+                 href={`https://www.youtube.com/results?search_query=${movie.title} trailer`} 
+                 target="_blank" 
+                 rel="noopener noreferrer">
+
+                
                 Watch Trailer
                 </a>
-                </button>
               </div>
             ))
         )}
