@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link, data } from 'react-router-dom';
-import Form from './components/Form';
+import {  Routes, Route, Link } from 'react-router-dom';
+// import Form from './components/Form';
 import MovieList from './components/MovieList.jsx';
 import MovieDetails from './components/MovieDetails.jsx';
 import Favorites from './components/Favorites.jsx';
@@ -16,22 +16,25 @@ const App = () => {
   useEffect(() => {
     const storedFavorites = JSON.parse(localStorage.getItem('favorites')) || [];
     setFavorites(storedFavorites);
+  }, []);
   
 useEffect(() => {
   const getMovies = async () => {
+    if (searchQuery) {     
     try { 
-      const movies = await fetchMovies(searchQuery);
-      setMovies(data.results || []);
+      const response = await fetchMovies(searchQuery);
+      setMovies(response.results || []);
     } catch (err) {
       console.error("Error fetching movies: ", err);
     }
-  };
-});
-
-
-  if (searchQuery) {
-    getMovies();
+  } else {
+    setMovies([]);
   }
+};
+
+
+  
+    getMovies();
 }, [searchQuery]);
 
     // Add movies to favorites
@@ -42,9 +45,6 @@ useEffect(() => {
       return updatedFavorites;
     });
   };
-      
-
-   
 
     // Remove movies from favorites
   const removeFromFavorites = (movieId) => {
@@ -54,10 +54,7 @@ useEffect(() => {
   
   });
 };
-
-
   return (
-    <Router>
     <div className="app">
       <h1>Movie Search App</h1>
       <nav>
@@ -75,8 +72,7 @@ useEffect(() => {
       </Routes>
       
     </div>
-    </Router>
   );
-};
+}
 
 export default App;

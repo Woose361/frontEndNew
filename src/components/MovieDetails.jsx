@@ -10,7 +10,7 @@ const MovieDetails = ({ addToFavorites, removeFromFavorites }) => {
   const [trailerKey, setTrailerKey] = useState(null);
 
   useEffect(() => {
-    const fetchMovieDetails = async () => {
+    const getMovieDetails = async () => {
       setLoading(true);
       try {
         const movieData = await fetchMovieDetails(id);
@@ -31,7 +31,7 @@ const MovieDetails = ({ addToFavorites, removeFromFavorites }) => {
         }   
         };
 
-        fetchMovieDetails();
+        getMovieDetails();
         }, [id]);
         
         if (loading) 
@@ -45,28 +45,28 @@ const MovieDetails = ({ addToFavorites, removeFromFavorites }) => {
     //       return data;
 
 
-    //     const handleAddToFavorites = async () => {
-    //       try {
-    //         const newFavorite = await serviceCall(ACTIONS.create, {
-    //           title: movie.title,
-    //           name: movie.name,
-    //           description: movie.overview,
-    //         });
+        const handleAddToFavorites = async () => {
+          try {
+            const newFavorite = await serviceCall(ACTIONS.create, {
+              title: movie.title,
+              name: movie.name,
+              description: movie.overview,
+            });
 
-    //         addToFavorites(newFavorite); 
-    //       } catch (err) {
-    //         console.error("Error adding to favorites", err);
-    //       }
-    //     };
+            addToFavorites(newFavorite); 
+          } catch (err) {
+            console.error("Error adding to favorites", err);
+          }
+        };
 
-    //     const handleRemoveFromFavorites = async () => {
-    //       try {
-    //       await serviceCall(ACTIONS.delete, null, movie.id);
-    //   removeFromFavorites(movie.id); 
-    //   } catch (err) {
-    //     console.error("Error removing from favorites", err);
-    //   }
-    // };
+        const handleRemoveFromFavorites = async () => {
+          try {
+          await serviceCall(ACTIONS.delete, null, movie.id);
+      removeFromFavorites(movie.id); 
+      } catch (err) {
+        console.error("Error removing from favorites", err);
+      }
+    };
 
     //     if (loading) 
     //         return <p> Loading movie data...</p>;
@@ -95,7 +95,5 @@ const MovieDetails = ({ addToFavorites, removeFromFavorites }) => {
             </div>
         );
     };
-
-  
 
     export default MovieDetails;
