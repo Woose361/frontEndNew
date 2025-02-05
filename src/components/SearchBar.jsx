@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 
-const SearchBar = ({ setMovies, setSearchQuery }) => {
+const SearchBar = ({  setSearchQuery }) => {
   const [query, setQuery] = useState('');
 
   const handleSearch = (e) => {
     e.preventDefault();
+    if (query.trim()){
     setSearchQuery(query); 
-    setQuery(''); 
+    }
   };
 
   return (

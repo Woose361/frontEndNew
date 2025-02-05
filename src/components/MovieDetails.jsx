@@ -13,9 +13,8 @@ const MovieDetails = ({ addToFavorites, removeFromFavorites }) => {
     const fetchMovieDetails = async () => {
       setLoading(true);
       try {
-        const response = await fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=ab881e0e86fe5334e70ca49928474d21`);
-        const data = await response.json();
-        setMovie(data);
+        const movieData = await fetchMovieDetails(id);
+        setMovie(movieData);
 
         const videoResponse = await fetch(`https://api.themoviedb.org/3/movie/${id}/videos?api_key=ab881e0e86fe5334e70ca49928474d21`);
         const videoData = await videoResponse.json();
@@ -34,6 +33,13 @@ const MovieDetails = ({ addToFavorites, removeFromFavorites }) => {
         fetchMovieDetails();
         }, [id]);
         
+
+        const fetchVideos = async (id) => {
+          const response = await fetch(`https://api.themoviedb.org/3/movie/${id}/videos?api_key=ab881e0e86fe5334e70ca49928474d21`);
+          const data = await response.json();
+          return data;
+
+
         const handleAddToFavorites = async () => {
           try {
             const newFavorite = await serviceCall(ACTIONS.create, {
@@ -85,6 +91,5 @@ const MovieDetails = ({ addToFavorites, removeFromFavorites }) => {
         );
     };
 
-    
+  };
     export default MovieDetails;
-

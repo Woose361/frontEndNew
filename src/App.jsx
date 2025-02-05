@@ -1,12 +1,11 @@
 import { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link, data } from 'react-router-dom';
 import Form from './components/Form';
 import MovieList from './components/MovieList.jsx';
 import MovieDetails from './components/MovieDetails.jsx';
 import Favorites from './components/Favorites.jsx';
 import { fetchMovies } from './services/apiServices.mjs';
 import SearchBar from './components/SearchBar.jsx';
-import { use } from 'react';
 
 
 const App = () => {
@@ -19,10 +18,10 @@ const App = () => {
     setFavorites(storedFavorites);
   
 useEffect(() => {
-  const getMovies = async (query = '') => {
+  const getMovies = async () => {
     try { 
-      const movies = await fetchMovies(query);
-      setMovies(movies.results);
+      const movies = await fetchMovies(searchQuery);
+      setMovies(data.results || []);
     } catch (err) {
       console.error("Error fetching movies: ", err);
     }
@@ -30,34 +29,45 @@ useEffect(() => {
 });
 
 
-  getMovies(searchQuery);
+  if (searchQuery) {
+    getMovies();
+  }
 }, [searchQuery]);
 
     // Add movies to favorites
   const addToFavorites = (movie) => {
-    const updatedFavorites = [...favorites, movie];
-    setFavorites(updatedFavorites);
-    localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
+    setFavorites((prevFavorites) => {
+      const updatedFavorites = [...prevFavorites, movie];
+      localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
+      return updatedFavorites;
+    });
   };
+      
+
+   
 
     // Remove movies from favorites
   const removeFromFavorites = (movieId) => {
-    const updatedFavorites = favorites.filter((movie) => movie.id !== movieId);
-    setFavorites(updatedFavorites);
+    setFavorites((prevFavorites) => {
+      const updatedFavorites = favorites.filter((movie) => movie.id !== movieId);
     localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
   
-  };
+  });
+};
 
 
   return (
+    <Router>
     <div className="app">
       <h1>Movie Search App</h1>
-      <SearchBar setMovies={setMovies} setSearchQuery={setSearchQuery}/>
       <nav>
         <Link to="/">  Home </Link>
         <Link to="/favorites"> Favorites</Link>
         </nav> 
        
+        <SearchBar setSearchQuery={setSearchQuery}/>
+
+
       <Routes>
         <Route path="/" element={<MovieList movies={movies} addToFavorites={addToFavorites} />}  />
         <Route path="/favorites" element={<Favorites favorites={favorites} removeFromFavorites={removeFromFavorites} />}/>
@@ -65,6 +75,7 @@ useEffect(() => {
       </Routes>
       
     </div>
+    </Router>
   );
 };
 
